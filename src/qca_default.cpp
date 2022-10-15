@@ -1250,7 +1250,7 @@ public:
     {
         const QDateTime now = QDateTime::currentDateTime();
 
-        uint t = now.toSecsSinceEpoch();
+        uint t = now.toMSecsSinceEpoch()/1000;
         if (now.time().msec() > 0)
             t /= now.time().msec();
         std::srand(t);

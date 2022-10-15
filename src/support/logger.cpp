@@ -95,8 +95,8 @@ void Logger::setLevel(Severity level)
 void Logger::logTextMessage(const QString &message, Severity severity)
 {
     if (severity <= level()) {
-        for (AbstractLogDevice *logger : qAsConst(m_loggers)) {
-            logger->logTextMessage(message, severity);
+        for ( int i = 0; i < m_loggers.size(); ++i ) {
+            m_loggers[i]->logTextMessage( message, severity );
         }
     }
 }
@@ -104,8 +104,8 @@ void Logger::logTextMessage(const QString &message, Severity severity)
 void Logger::logBinaryMessage(const QByteArray &blob, Severity severity)
 {
     if (severity <= level()) {
-        for (AbstractLogDevice *logger : qAsConst(m_loggers)) {
-            logger->logBinaryMessage(blob, severity);
+        for ( int i = 0; i < m_loggers.size(); ++i ) {
+            m_loggers[i]->logBinaryMessage( blob, severity );
         }
     }
 }
