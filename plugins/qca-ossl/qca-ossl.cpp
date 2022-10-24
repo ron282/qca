@@ -32,6 +32,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 
 #include <openssl/err.h>
 #include <openssl/opensslv.h>
@@ -3474,8 +3475,8 @@ public:
         BN_free(bn);
 
         // validity period
-        ASN1_TIME_set(X509_get_notBefore(x), opts.notValidBefore().toSecsSinceEpoch());
-        ASN1_TIME_set(X509_get_notAfter(x), opts.notValidAfter().toSecsSinceEpoch());
+        ASN1_TIME_set(X509_get_notBefore(x), opts.notValidBefore().toMSecsSinceEpoch()/1000);
+        ASN1_TIME_set(X509_get_notAfter(x), opts.notValidAfter().toMSecsSinceEpoch()/1000);
 
         // public key
         X509_set_pubkey(x, pk);
@@ -3878,8 +3879,8 @@ public:
         BN_free(bn);
 
         // validity period
-        ASN1_TIME_set(X509_get_notBefore(x), QDateTime::currentDateTimeUtc().toSecsSinceEpoch());
-        ASN1_TIME_set(X509_get_notAfter(x), notValidAfter.toSecsSinceEpoch());
+        ASN1_TIME_set(X509_get_notBefore(x), QDateTime::currentDateTimeUtc().toMSecsSinceEpoch()/1000);
+        ASN1_TIME_set(X509_get_notAfter(x), notValidAfter.toMSecsSinceEpoch()/1000);
 
         X509_set_pubkey(x, static_cast<const MyPKeyContext *>(req.subjectPublicKey())->get_pkey());
         X509_set_subject_name(x, subjectName);

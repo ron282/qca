@@ -47,7 +47,7 @@ public:
                 Qt::QueuedConnection);
         connect(proc, &QProcess::bytesWritten, this, &QProcessSignalRelay::proc_bytesWritten, Qt::QueuedConnection);
         connect(proc,
-                QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
                 this,
                 &QProcessSignalRelay::proc_finished,
                 Qt::QueuedConnection);

@@ -35,7 +35,7 @@ static QDateTime getTimestamp(const QString &s)
     if (s.contains(QLatin1Char('T'))) {
         return QDateTime::fromString(s, Qt::ISODate);
     } else {
-        return QDateTime::fromSecsSinceEpoch(s.toInt());
+        return QDateTime::fromMSecsSinceEpoch(s.toInt()*1000);
     }
 }
 
@@ -665,12 +665,12 @@ void GpgAction::processStatusLine(const QString &line)
         output.verifyResult = GpgOp::VerifyBad;
     } else if (s == QLatin1String("ERRSIG")) {
         output.wasSigned       = true;
-        const QStringList list = rest.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        const QStringList list = rest.split(QLatin1Char(' '), QString::SkipEmptyParts);
         output.signerId        = list[0];
         output.timestamp       = getTimestamp(list[4]);
         output.verifyResult    = GpgOp::VerifyNoKey;
     } else if (s == QLatin1String("VALIDSIG")) {
-        const QStringList list = rest.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        const QStringList list = rest.split(QLatin1Char(' '), QString::SkipEmptyParts);
         output.timestamp       = getTimestamp(list[2]);
     }
 }
