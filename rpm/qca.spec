@@ -38,7 +38,8 @@ mkdir -p build
 pushd build
 
 %cmake .. \
-  -D QCA_INSTALL_IN_QT_PREFIX=ON \
+  -D QCA_INSTALL_IN_QT_PREFIX=OFF \
+  -D CMAKE_INSTALL_PREFIX="/usr/lib" \
   -D BUILD_PLUGINS=AUTO \
   -D BUILD_TESTS=OFF 
 
