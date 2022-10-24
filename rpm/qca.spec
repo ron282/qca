@@ -38,7 +38,9 @@ mkdir -p build
 pushd build
 
 %cmake .. \
-  -D BUILD_TESTS:BOOL=OFF 
+  -D QCA_INSTALL_IN_QT_PREFIX=ON \
+  -D BUILD_PLUGINS=AUTO \
+  -D BUILD_TESTS=OFF 
 
 %make_build 
 popd
