@@ -25,13 +25,14 @@ X.509 certificates, SASL, OpenPGP, S/MIME CMS, and smart cards.
 
 %package devel
 Summary:    Development package of %{name}
-Requires:   %{name} = %{version}-%{release}
+Requires:       %{name} = %{version}-%{release}
+Provides:       %{name}-devel
 
 %description devel
 Contains files needed to development with %{name}.
 
 %prep
-%setup -q -n %{name}-%{version}/qca
+%setup -q -n qca-%{version}
 
 %build
 mkdir -p build
@@ -39,7 +40,7 @@ pushd build
 
 %cmake .. \
   -D QCA_INSTALL_IN_QT_PREFIX=OFF \
-  -D CMAKE_INSTALL_PREFIX="/usr/lib" \
+  -D LIB_INSTALL_DIR=%{_libdir} \
   -D BUILD_PLUGINS=AUTO \
   -D BUILD_TESTS=OFF 
 
@@ -49,7 +50,7 @@ popd
 %install
 rm -rf %{buildroot}
 pushd build
-%make_install
+make install DESTDIR=%{buildroot}
 popd
 
 %post   -p /sbin/ldconfig
@@ -62,16 +63,16 @@ popd
 %defattr(-,root,root,-)
 %doc README TODO
 %license COPYING
-%{_libdir}/qt5/bin/qcatool-qt5
-%{_libdir}/qt5/bin/mozcerts-qt5
+%{_bindir}/qcatool-qt5
+%{_bindir}/mozcerts-qt5
+%{_libdir}/libqca-qt5.so
 %{_libdir}/libqca-qt5.so.*
-%{_libdir}/qt5/plugins/crypto/*
-%{_datadir}/qt5/man/*/*
+%{_libdir}/qca-qt5/crypto/libqca-*.so
 
 %files devel
 %defattr(-,root,root,-)
-%{_includedir}/qt5/Qca-qt5/QtCrypto
-%{_libdir}/libqca-qt5.so
-%{_libdir}/pkgconfig/qca2-qt5.pc
 %{_libdir}/cmake/*/*
-%{_datadir}/qt5/mkspecs/features/crypto.prf
+%{_libdir}/pkgconfig/qca2-qt5.pc
+%{_includedir}/Qca-qt5/QtCrypto/*
+%{_usr}/mkspecs/features/crypto.prf
+%{_mandir}/man1/*
